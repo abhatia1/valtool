@@ -1,0 +1,109 @@
+# config/templates.yaml
+templates:
+  quick_start:
+    id: "quick_start"
+    name: "Quick Start"
+    description: "Fast training with basic models (~5 minutes)"
+    config:
+      preprocessing:
+        scaling_method: "standard"
+        missing_strategy: "median"
+        categorical_encoding: "onehot"
+        handle_outliers: false
+
+      feature_engineering:
+        polynomial_features: false
+        feature_selection: false
+
+      model_selection:
+        estimators:
+          - "logistic_regression"
+          - "random_forest"
+          - "xgboost"
+        validation_strategy: "cross_validation"  # "cross_validation" or "train_test_split"
+        cv_folds: 3
+        test_size: 0.2  # Only used if validation_strategy is "train_test_split"
+        scoring_metric: "accuracy"
+
+      hyperparameter_tuning:
+        search_method: "grid"
+        n_iter: 10
+
+      mlflow:
+        enabled: true
+        auto_log: true
+
+  standard:
+    id: "standard"
+    name: "Standard"
+    description: "Balanced training with grid search (~15 minutes)"
+    config:
+      preprocessing:
+        scaling_method: "standard"
+        missing_strategy: "median"
+        categorical_encoding: "onehot"
+        handle_outliers: true
+        outlier_method: "iqr"
+
+      feature_engineering:
+        polynomial_features: false
+        feature_selection: true
+        selection_method: "selectkbest"
+        n_features: 20
+
+      model_selection:
+        estimators:
+          - "logistic_regression"
+          - "ridge"
+          - "decision_tree"
+          - "random_forest"
+          - "gradient_boosting"
+          - "xgboost"
+          - "svc"
+          - "knn"
+        validation_strategy: "cross_validation"  # "cross_validation" or "train_test_split"
+        cv_folds: 5
+        test_size: 0.2  # Only used if validation_strategy is "train_test_split"
+        scoring_metric: "f1_weighted"
+
+      hyperparameter_tuning:
+        search_method: "random"
+        n_iter: 50
+
+      mlflow:
+        enabled: true
+        auto_log: true
+
+  deep_search:
+    id: "deep_search"
+    name: "Deep Search"
+    description: "Exhaustive search with all models (~1 hour)"
+    config:
+      preprocessing:
+        scaling_method: "robust"
+        missing_strategy: "knn"
+        categorical_encoding: "target"
+        handle_outliers: true
+        outlier_method: "isolation_forest"
+
+      feature_engineering:
+        polynomial_features: true
+        polynomial_degree: 2
+        feature_selection: true
+        selection_method: "mutual_info"
+        n_features: 30
+
+      model_selection:
+        estimators: "all"  # Will be expanded to all available estimators
+        validation_strategy: "cross_validation"  # "cross_validation" or "train_test_split"
+        cv_folds: 10
+        test_size: 0.2  # Only used if validation_strategy is "train_test_split"
+        scoring_metric: "roc_auc"
+
+      hyperparameter_tuning:
+        search_method: "bayesian"
+        n_iter: 100
+
+      mlflow:
+        enabled: true
+        auto_log: true

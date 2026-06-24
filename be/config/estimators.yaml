@@ -1,0 +1,608 @@
+# config/estimators.yaml
+classification:
+  logistic_regression:
+    name: "Logistic Regression"
+    category: "linear"
+    description: "Linear model for binary/multiclass classification"
+    class: "sklearn.linear_model.LogisticRegression"
+    default_params:
+      max_iter: 1000
+      random_state: 42
+    tunable_params:
+      C:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+      penalty:
+        type: "categorical"
+        values: ["l1", "l2", "elasticnet"]
+      solver:
+        type: "categorical"
+        values: ["lbfgs", "liblinear", "saga"]
+
+  ridge:
+    name: "Ridge Classifier"
+    category: "linear"
+    description: "Linear classification with L2 regularization"
+    class: "sklearn.linear_model.RidgeClassifier"
+    default_params:
+      random_state: 42
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+
+  decision_tree:
+    name: "Decision Tree"
+    category: "tree_based"
+    description: "Tree-based classifier"
+    class: "sklearn.tree.DecisionTreeClassifier"
+    default_params:
+      random_state: 42
+    tunable_params:
+      max_depth:
+        type: "int"
+        range: [3, 50]
+      min_samples_split:
+        type: "int"
+        range: [2, 20]
+      min_samples_leaf:
+        type: "int"
+        range: [1, 10]
+
+  random_forest:
+    name: "Random Forest"
+    category: "tree_based"
+    description: "Ensemble of decision trees"
+    class: "sklearn.ensemble.RandomForestClassifier"
+    default_params:
+      random_state: 42
+      n_jobs: -1
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      max_depth:
+        type: "int"
+        range: [3, 50]
+      min_samples_split:
+        type: "int"
+        range: [2, 20]
+      min_samples_leaf:
+        type: "int"
+        range: [1, 10]
+
+  extra_trees:
+    name: "Extra Trees"
+    category: "tree_based"
+    description: "Extremely randomized trees ensemble"
+    class: "sklearn.ensemble.ExtraTreesClassifier"
+    default_params:
+      random_state: 42
+      n_jobs: -1
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      max_depth:
+        type: "int"
+        range: [3, 50]
+
+  gradient_boosting:
+    name: "Gradient Boosting"
+    category: "boosting"
+    description: "Sequential ensemble with gradient boosting"
+    class: "sklearn.ensemble.GradientBoostingClassifier"
+    default_params:
+      random_state: 42
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      learning_rate:
+        type: "float"
+        range: [0.01, 0.3]
+      max_depth:
+        type: "int"
+        range: [3, 15]
+
+  hist_gradient_boosting:
+    name: "Histogram Gradient Boosting"
+    category: "boosting"
+    description: "Fast gradient boosting with histogram-based algorithm"
+    class: "sklearn.ensemble.HistGradientBoostingClassifier"
+    default_params:
+      random_state: 42
+    tunable_params:
+      learning_rate:
+        type: "float"
+        range: [0.01, 0.3]
+      max_depth:
+        type: "int"
+        range: [3, 15]
+
+  adaboost:
+    name: "AdaBoost"
+    category: "boosting"
+    description: "Adaptive boosting ensemble"
+    class: "sklearn.ensemble.AdaBoostClassifier"
+    default_params:
+      random_state: 42
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      learning_rate:
+        type: "float"
+        range: [0.01, 2.0]
+
+  xgboost:
+    name: "XGBoost"
+    category: "boosting"
+    description: "Gradient boosting with regularization"
+    class: "xgboost.XGBClassifier"
+    default_params:
+      random_state: 42
+      n_jobs: -1
+      eval_metric: "logloss"
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      max_depth:
+        type: "int"
+        range: [3, 15]
+      learning_rate:
+        type: "float"
+        range: [0.01, 0.3]
+      subsample:
+        type: "float"
+        range: [0.6, 1.0]
+      colsample_bytree:
+        type: "float"
+        range: [0.6, 1.0]
+
+  svc:
+    name: "Support Vector Classifier"
+    category: "svm"
+    description: "Support vector machine for classification"
+    class: "sklearn.svm.SVC"
+    default_params:
+      random_state: 42
+      probability: true
+    tunable_params:
+      C:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+      kernel:
+        type: "categorical"
+        values: ["linear", "rbf", "poly"]
+      gamma:
+        type: "categorical"
+        values: ["scale", "auto"]
+
+  nusvc:
+    name: "Nu-Support Vector Classifier"
+    category: "svm"
+    description: "SVM with nu parameter"
+    class: "sklearn.svm.NuSVC"
+    default_params:
+      random_state: 42
+      probability: true
+    tunable_params:
+      nu:
+        type: "float"
+        range: [0.01, 1.0]
+
+  linear_svc:
+    name: "Linear Support Vector Classifier"
+    category: "svm"
+    description: "Linear SVM for classification"
+    class: "sklearn.svm.LinearSVC"
+    default_params:
+      random_state: 42
+      max_iter: 2000
+    tunable_params:
+      C:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+
+  knn:
+    name: "K-Nearest Neighbors"
+    category: "instance_based"
+    description: "Instance-based classification"
+    class: "sklearn.neighbors.KNeighborsClassifier"
+    default_params:
+      n_jobs: -1
+    tunable_params:
+      n_neighbors:
+        type: "int"
+        range: [3, 20]
+      weights:
+        type: "categorical"
+        values: ["uniform", "distance"]
+      metric:
+        type: "categorical"
+        values: ["euclidean", "manhattan", "minkowski"]
+
+  gaussian_nb:
+    name: "Gaussian Naive Bayes"
+    category: "naive_bayes"
+    description: "Gaussian Naive Bayes classifier"
+    class: "sklearn.naive_bayes.GaussianNB"
+    default_params: {}
+    tunable_params:
+      var_smoothing:
+        type: "float"
+        range: [1e-11, 1e-7]
+        log_scale: true
+
+  multinomial_nb:
+    name: "Multinomial Naive Bayes"
+    category: "naive_bayes"
+    description: "Multinomial Naive Bayes classifier"
+    class: "sklearn.naive_bayes.MultinomialNB"
+    default_params: {}
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [0.001, 10]
+
+  bernoulli_nb:
+    name: "Bernoulli Naive Bayes"
+    category: "naive_bayes"
+    description: "Bernoulli Naive Bayes classifier"
+    class: "sklearn.naive_bayes.BernoulliNB"
+    default_params: {}
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [0.001, 10]
+
+  mlp_classifier:
+    name: "Multi-layer Perceptron"
+    category: "neural_network"
+    description: "Neural network classifier"
+    class: "sklearn.neural_network.MLPClassifier"
+    default_params:
+      random_state: 42
+      max_iter: 500
+    tunable_params:
+      hidden_layer_sizes:
+        type: "categorical"
+        values: [[50], [100], [50, 50], [100, 50]]
+      activation:
+        type: "categorical"
+        values: ["relu", "tanh"]
+      alpha:
+        type: "float"
+        range: [0.0001, 0.1]
+        log_scale: true
+
+regression:
+  linear_regression:
+    name: "Linear Regression"
+    category: "linear"
+    description: "Ordinary least squares regression"
+    class: "sklearn.linear_model.LinearRegression"
+    default_params: {}
+    tunable_params: {}
+
+  ridge:
+    name: "Ridge Regression"
+    category: "linear"
+    description: "Linear regression with L2 regularization"
+    class: "sklearn.linear_model.Ridge"
+    default_params:
+      random_state: 42
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+
+  lasso:
+    name: "Lasso Regression"
+    category: "linear"
+    description: "Linear regression with L1 regularization"
+    class: "sklearn.linear_model.Lasso"
+    default_params:
+      random_state: 42
+      max_iter: 2000
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+
+  elasticnet:
+    name: "ElasticNet"
+    category: "linear"
+    description: "Linear regression with L1 and L2 regularization"
+    class: "sklearn.linear_model.ElasticNet"
+    default_params:
+      random_state: 42
+      max_iter: 2000
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+      l1_ratio:
+        type: "float"
+        range: [0.1, 0.9]
+
+  sgd_regressor:
+    name: "SGD Regressor"
+    category: "linear"
+    description: "Linear regression with stochastic gradient descent"
+    class: "sklearn.linear_model.SGDRegressor"
+    default_params:
+      random_state: 42
+      max_iter: 2000
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [0.0001, 0.1]
+        log_scale: true
+      penalty:
+        type: "categorical"
+        values: ["l1", "l2", "elasticnet"]
+
+  decision_tree_regressor:
+    name: "Decision Tree Regressor"
+    category: "tree_based"
+    description: "Tree-based regression"
+    class: "sklearn.tree.DecisionTreeRegressor"
+    default_params:
+      random_state: 42
+    tunable_params:
+      max_depth:
+        type: "int"
+        range: [3, 50]
+      min_samples_split:
+        type: "int"
+        range: [2, 20]
+
+  random_forest_regressor:
+    name: "Random Forest Regressor"
+    category: "tree_based"
+    description: "Ensemble regression with decision trees"
+    class: "sklearn.ensemble.RandomForestRegressor"
+    default_params:
+      random_state: 42
+      n_jobs: -1
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      max_depth:
+        type: "int"
+        range: [3, 50]
+
+  extra_trees_regressor:
+    name: "Extra Trees Regressor"
+    category: "tree_based"
+    description: "Extremely randomized trees for regression"
+    class: "sklearn.ensemble.ExtraTreesRegressor"
+    default_params:
+      random_state: 42
+      n_jobs: -1
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      max_depth:
+        type: "int"
+        range: [3, 50]
+
+  gradient_boosting_regressor:
+    name: "Gradient Boosting Regressor"
+    category: "boosting"
+    description: "Sequential ensemble regression"
+    class: "sklearn.ensemble.GradientBoostingRegressor"
+    default_params:
+      random_state: 42
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      learning_rate:
+        type: "float"
+        range: [0.01, 0.3]
+      max_depth:
+        type: "int"
+        range: [3, 15]
+
+  hist_gradient_boosting_regressor:
+    name: "Histogram Gradient Boosting Regressor"
+    category: "boosting"
+    description: "Fast gradient boosting for regression"
+    class: "sklearn.ensemble.HistGradientBoostingRegressor"
+    default_params:
+      random_state: 42
+    tunable_params:
+      learning_rate:
+        type: "float"
+        range: [0.01, 0.3]
+      max_depth:
+        type: "int"
+        range: [3, 15]
+
+  adaboost_regressor:
+    name: "AdaBoost Regressor"
+    category: "boosting"
+    description: "Adaptive boosting for regression"
+    class: "sklearn.ensemble.AdaBoostRegressor"
+    default_params:
+      random_state: 42
+    tunable_params:
+      n_estimators:
+        type: "int"
+        range: [50, 500]
+      learning_rate:
+        type: "float"
+        range: [0.01, 2.0]
+
+  svr:
+    name: "Support Vector Regressor"
+    category: "svm"
+    description: "Support vector machine for regression"
+    class: "sklearn.svm.SVR"
+    default_params: {}
+    tunable_params:
+      C:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+      kernel:
+        type: "categorical"
+        values: ["linear", "rbf", "poly"]
+
+  nusvr:
+    name: "Nu-Support Vector Regressor"
+    category: "svm"
+    description: "SVM regression with nu parameter"
+    class: "sklearn.svm.NuSVR"
+    default_params: {}
+    tunable_params:
+      nu:
+        type: "float"
+        range: [0.01, 1.0]
+
+  linear_svr:
+    name: "Linear Support Vector Regressor"
+    category: "svm"
+    description: "Linear SVM for regression"
+    class: "sklearn.svm.LinearSVR"
+    default_params:
+      random_state: 42
+      max_iter: 2000
+    tunable_params:
+      C:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+
+  knn_regressor:
+    name: "K-Nearest Neighbors Regressor"
+    category: "instance_based"
+    description: "Instance-based regression"
+    class: "sklearn.neighbors.KNeighborsRegressor"
+    default_params:
+      n_jobs: -1
+    tunable_params:
+      n_neighbors:
+        type: "int"
+        range: [3, 20]
+      weights:
+        type: "categorical"
+        values: ["uniform", "distance"]
+
+  mlp_regressor:
+    name: "Multi-layer Perceptron Regressor"
+    category: "neural_network"
+    description: "Neural network regressor"
+    class: "sklearn.neural_network.MLPRegressor"
+    default_params:
+      random_state: 42
+      max_iter: 500
+    tunable_params:
+      hidden_layer_sizes:
+        type: "categorical"
+        values: [[50], [100], [50, 50], [100, 50]]
+      activation:
+        type: "categorical"
+        values: ["relu", "tanh"]
+
+  kernel_ridge:
+    name: "Kernel Ridge"
+    category: "kernel"
+    description: "Ridge regression with kernel trick"
+    class: "sklearn.kernel_ridge.KernelRidge"
+    default_params: {}
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [0.001, 100]
+        log_scale: true
+      kernel:
+        type: "categorical"
+        values: ["linear", "rbf", "poly"]
+
+  gaussian_process:
+    name: "Gaussian Process Regressor"
+    category: "gaussian_process"
+    description: "Probabilistic regression with Gaussian processes"
+    class: "sklearn.gaussian_process.GaussianProcessRegressor"
+    default_params:
+      random_state: 42
+    tunable_params:
+      alpha:
+        type: "float"
+        range: [1e-10, 1e-5]
+        log_scale: true
+
+  bayesian_ridge:
+    name: "Bayesian Ridge"
+    category: "bayesian"
+    description: "Bayesian ridge regression"
+    class: "sklearn.linear_model.BayesianRidge"
+    default_params: {}
+    tunable_params:
+      alpha_1:
+        type: "float"
+        range: [1e-7, 1e-5]
+        log_scale: true
+
+timeseries:
+  arima:
+    name: "ARIMA"
+    category: "statistical"
+    description: "AutoRegressive Integrated Moving Average"
+    class: "statsmodels.tsa.arima.model.ARIMA"
+    default_params: {}
+    tunable_params:
+      p:
+        type: "int"
+        range: [0, 5]
+      d:
+        type: "int"
+        range: [0, 2]
+      q:
+        type: "int"
+        range: [0, 5]
+
+  sarima:
+    name: "SARIMA"
+    category: "statistical"
+    description: "Seasonal ARIMA"
+    class: "statsmodels.tsa.statespace.sarimax.SARIMAX"
+    default_params: {}
+    tunable_params:
+      p:
+        type: "int"
+        range: [0, 5]
+      d:
+        type: "int"
+        range: [0, 2]
+      q:
+        type: "int"
+        range: [0, 5]
+
+  exponential_smoothing:
+    name: "Exponential Smoothing"
+    category: "statistical"
+    description: "Holt-Winters exponential smoothing"
+    class: "statsmodels.tsa.holtwinters.ExponentialSmoothing"
+    default_params: {}
+    tunable_params:
+      trend:
+        type: "categorical"
+        values: ["add", "mul", null]
+      seasonal:
+        type: "categorical"
+        values: ["add", "mul", null]

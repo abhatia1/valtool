@@ -1,0 +1,70 @@
+# MLflow Configuration
+# This file configures MLflow experiment tracking and model registry
+
+mlflow:
+  # Master switch to enable/disable MLflow tracking
+  enabled: true
+
+  # MLflow tracking server URI
+  # Options:
+  #   - "sqlite:///mlflow.db" (local SQLite database, default)
+  #   - "http://localhost:5000" (MLflow tracking server)
+  #   - "postgresql://user:pass@host:5432/mlflow" (PostgreSQL backend)
+  tracking_uri: "sqlite:///mlflow.db"
+
+  # Prefix for experiment names (will be combined with task type)
+  # e.g., "valtool_classification", "valtool_regression"
+  experiment_name_prefix: "valtool"
+
+  # Enable sklearn autologging (logs params, metrics, model automatically)
+  auto_log: true
+
+  # Local artifact storage location
+  # Used when tracking_uri is local (SQLite)
+  artifact_location: "./mlruns"
+
+  # Model registry URI (null means same as tracking_uri)
+  # Set to separate URI if using dedicated model registry server
+  model_registry_uri: null
+
+  # Tags to add to all runs
+  default_tags:
+    platform: "valtool"
+    version: "1.0"
+
+  # Logging options
+  logging:
+    # Log model artifacts (pickle files)
+    log_models: true
+
+    # Log feature importance plots
+    log_feature_importance: true
+
+    # Log confusion matrix (classification only)
+    log_confusion_matrix: true
+
+    # Log training/validation curves
+    log_training_curves: true
+
+    # Log input data schema
+    log_input_schema: true
+
+    # Log pip requirements
+    log_requirements: true
+
+# Model registry settings
+model_registry:
+  # Auto-register best model after training
+  auto_register: false
+
+  # Default stage for new models ("None", "Staging", "Production", "Archived")
+  default_stage: "None"
+
+  # Model naming pattern (supports {job_id}, {task_type}, {estimator})
+  model_name_pattern: "{task_type}_{job_id}"
+
+# Server settings (for standalone MLflow server)
+server:
+  host: "0.0.0.0"
+  port: 5000
+  workers: 2
